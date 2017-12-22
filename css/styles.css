@@ -1,0 +1,158 @@
+body {
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+img.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+
+
+/*Homepage CSS*/
+.grandparentContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.postings {
+  background-color: #F0F0F0;
+  border: 1px solid #9B9999;
+  box-shadow: 0 0 0 1px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 5em;
+  margin-bottom: 10em;
+  padding: 1em;
+  position: relative;
+  left: 5em;
+  width: 25%;
+}
+
+.postInput {
+  border: 2px solid #B5B0B0;
+}
+
+.descriptionInput {
+  border: 2px solid #B5B0B0;
+  height: 20em;
+}
+
+.priceInput {
+  border: 2px solid #B5B0B0;
+}
+
+.postButton {
+  border-radius: 10px;
+  border-color: #646161;
+  margin: 1em 0 1em 0;
+}
+
+.preview {
+  background-color: #F0F0F0;
+  border: 1px solid #9B9999;
+  box-shadow: 0 0 0 1px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 5em 0 10em 4em;
+  padding: 1em;
+  position: relative;
+  left: 5em;
+  width: 25%;
+}
+
+/*The postHolder is located in dojo.js*/
+.postHolder {
+  background-color: #F0F0F0;
+  border: 1px solid #9B9999;
+  box-shadow: 0 0 0 1px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style: none;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 1em;
+  position: relative;
+  left: 5em;
+  width: 25%;
+}
+
+.imgBtn {
+  background-color: red;
+}
+/*Lists viewing page CSS*/
+
+label.upload-group {
+  text-align: center;
+  font-size: 15px;
+  width: 60px;
+  height: 25px;
+  background-color: #E7E7E7;
+  border: 1px solid #A2A0A0;
+}
+
+input#file {
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+  z-index: -1;
+}
+
+.submitImg {
+  text-align: center;
+  font-size: 15px;
+  width: 70px;
+  height: 25px;
+  background-color: #E7E7E7;
+  border: 1px solid #A2A0A0;
+}
+
+footer ul {
+  bottom: 0;
+  position: relative;
+  display: grid;
+
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  /*padding: 35px;*/
+  /*background-color: darkslategray;*/
+  font-size: 20px;
+  text-align: justify;
+}
+.footer-links {
+  display: flex;
+  margin-left: 10%;
+}
+.column {
+  float: left;
+  width: 33%;
+}
+.column img {
+  position: absolute;
+  bottom: -140px;
+}
+
+.navbar-brand {
+  font-size: 22px;
+}
+.nav-item {
+  font-size: 22px;

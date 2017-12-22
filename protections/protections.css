@@ -1,0 +1,29 @@
+body {
+  background-color: #F8F8F8;
+}
+.nav-item {
+  font-size: 22px;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+
+}
+.text {
+  width: 80%;
+  height: 100%;
+  background-color: white;
+  border-radius: 25px;
+  font-size: 20px;
+  padding: 30px;
+}
+.sidebar {
+  width: 30%;
+  height: 100%;
+  float:right;
+  background-color: white;
+  border: 1px solid black;
+  font-size: 22px;
+}

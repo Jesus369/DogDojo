@@ -1,5 +1,9 @@
+$(document).ready(function() {
+  $("#displayedImg").hide()
+$("#previewPost").hide()
+})
+
 let emptyDiv = $("#emptyDiv")
-let previewDiv = $("#previewDiv")
 let user_post = $("#user_post")
 
 // buttons
@@ -8,138 +12,247 @@ let deletePost = $("#deletePost")
 let updatePost = $("#updatePost")
 let previewButton = document.getElementById("previewButton")
 let uploadButton = $("#uploadButton")
-
-let dbRef = firebase.database().ref() // get the root
-let listsRef = dbRef.child("user_posts")
-let list = []
+let previewPost = document.getElementById("previewPost")
 
 let selectedFile;
 
-
-//-------------------------------------------------------------------------
-function appendToPreview() {
-  let name = $("#name").val()
-  let breed = $("#breed").val()
-  let description = $("#description").val()
-  let price = $("#price").val()
-  let emailAddress = $("#emailAddress").val()
-  let phoneNumber = $("#phoneNumber").val()
-
-  $(previewDiv).html(`
-    <p>${$("#name").val()}</p>
-    <p>${$("#breed").val()}</p>
-    <p>${$("#description").val()}</p>
-    <p>${$("#price").val()}</p>
-    <p>${$("#phoneNumber").val()}</p>
-    <p>${$("#emailAddress").val()}</p>
-    `)
-}
-//-------------------------------------------------------------------------
-previewButton.addEventListener("click",function(){
-  let phoneValidity = phoneNumber.checkValidity()
-  let emailValidity = emailAddress.checkValidity()
-
-  if(emailValidity == false) {
-    $("#emailReq").html("Enter a valid email address")
-  } else if(phoneValidity == false) {
-    $("#phoneReq").html("Please enter a valid number")
-  } else {
-    appendToPreview()
-  }
-
-  if(emailValidity == false && phoneValidity == false) {
-    $("#emailReq").html("Enter a valid email address")
-    &&
-    $("#phoneReq").html("Please enter a valid number")
-  }
-
-})
-//-------------------------------------------------------------------------
-$(deletePost).click(function(){
-  console.log("Delete button clicked")
-  $("#postForm")[0].reset()
-  $(previewDiv).html("")
-})
-//-------------------------------------------------------------------------
-// Firing the "post" button
-$(post).click(function(){
-  // Grabbing user's postInput ID's
-  let name = $("#name").val()
-  let breed = $("#breed").val()
-  let description = $("#description").val()
-  let price = $("#price").val()
-  let emailAddress = $("#emailAddress").val()
-  let phoneNumber = $("#phoneNumber").val()
-
-  let createDog = new dogListing(name,breed,description,price)
-  listsRef.child(name).set(createDog)
-  reloadPage()
-})
-//-------------------------------------------------------------------------
-// Monitoring when there is a change in the data
-function monitorUpdates(){
-  listsRef.on("value", function( snapshot ){
-
-    for(key in snapshot.val()) {
-      let data = (snapshot.val()[key])
-      let createDog = new dogListing(data)
-      list.push(createDog)
-    }
-    updateUI()
-  })
-}
-//-------------------------------------------------------------------------
-// Updating the UI
-function updateUI() {
-  listsRef.once("value",function(snapshot){
-    snapshot.forEach(function(childSnapshot) {
-      var dataKey = childSnapshot.key
-      let dataVal = childSnapshot.val()
-
-      $("<div>").attr({ class: "postHolder" })
-      .append($("<li>").html(dataVal.name))
-      .append($("<li>").html(dataVal.breed))
-      .append($("<li>").html(dataVal.description))
-      .append($("<li>").html(dataVal.price))
-      .appendTo($(listingsHolder))
-    })
-  })
-}
-//-------------------------------------------------------------------------
-
-// reload page when submit button is clicked
-function reloadPage() {
-  window.location.reload();
-}
-//-------------------------------------------------------------------------
-$(uploadButton).click(function() {
-  uploadFile()
-})
-
-$("#file").on("change",function(event) {
+$("#file").on("change", function(event) {
   selectedFile = event.target.files[0]
 })
 
 function uploadFile() {
-  let filename = selectedFile.name // get the file name of the image the user uploads
-  let storageRef = firebase.storage().ref("/dogImages/ + filename")
+  let filename = selectedFile.name
+  var storageRef = firebase.storage().ref("/userPosts/" + filename)
   let uploadTask = storageRef.put(selectedFile)
 
   uploadTask.on("state_changed", function(snapshot) {
-  }, function(error) {
 
-  }, function() {
-    let postKey = firebase.database().ref("image_posts/").push().key
+  }, 
+
+  function(error) {
+
+  }, 
+
+  function() {
+    let postKey = firebase.database().ref("Posts/").push().key
     let downloadURL = uploadTask.snapshot.downloadURL
-    var updates = {}
-    let postImage = {
-        contentType : "Image",
-        customImages : {
-        url : downloadURL
-      }
+    let updates = {}
+    let postData = {
+      url : downloadURL,
+      name : $("#name").val(),
+      breed : $("#breed").val(),
+      description : $("#description").val(),
+      price : $("#price").val(),
+      phone : $("#phoneNumber").val(),
+      email : $("#emailAddress").val()
     }
-    updates["/image_posts/" + postKey] = postImage
-    firebase.database().ref().update(updates);
+    updates["/Posts/" + postKey] = postData
+    firebase.database().ref().update(updates)
     console.log(downloadURL)
   })
+
+}
+
+//---------------------------------------------------------------------------------
+
+function readImage(input) {
+  if (input.files && input.files[0]) {
+    let reader = new FileReader()
+
+    reader.onload = function (data) {
+      $(".displayImg").attr("src", data.target.result)
+      $(".previewImg").attr("src", data.target.result)
+
+    }
+    reader.readAsDataURL(input.files[0])
+  }
+}
+
+//---------------------------------------------------------------------------------
+
+$(".upload-file").change(function(){
+  $("#displayedImg").show()
+  readImage(this)
+})
+
+//---------------------------------------------------------------------------------
+
+$("#trashbin").click(function() {
+  $("#displayedImg").hide()
+})
+
+//---------------------------------------------------------------------------------
+
+$("#previewButton").click(function() {
+  let email = document.getElementById("emailAddress")
+  let phone = document.getElementById("phoneNumber")
+
+  let isValid = true
+
+  // is input type text empty?
+  $(".postInput").each(function() {
+    if($.trim($(".postInput").val()) == "") {
+      isValid = false
+      $(this).css({
+        "box-shadow" : "0 0 2px 2px #FF6969"
+      })
+      $(this).keyup(function() {
+        $(this).css ({
+          "box-shadow" : ""
+        })
+      })
+    } else {
+      $(this).css ({
+        "box-shadow" : ""
+      })
+    }
+  })
+
+  // Is textarea empty
+  $("textarea[type='text']").each(function(){
+    if($.trim($(this).val()) == "")  {
+      isValid = false
+      $(this).css ({
+        "box-shadow" : "0 0 2px 2px #FF6969"
+      })
+      $(this).keyup(function() {
+        $(this).css ({
+          "box-shadow" : ""
+        })
+      })
+    } else {
+      $(this).css({
+        "box-shadow" : ""
+      })
+    }
+  })
+
+  //is Choose a bread empty?
+  $("select[name='favorite']").each(function() {
+    if ($(this).val() == "Choose a breed") {
+      isValid = false
+      $(this).css ({
+        "box-shadow" : "0 0 2px 2px #FF6969"
+      })
+      $(this).bind("change keyup", function(event) {
+        $(this).css({
+          "box-shadow" : ""
+        })
+      })
+    } else {
+      $(this).css ({
+        "box-shadow" : ""
+      })
+    }
+  })
+
+  // Is the input file empty?
+  if($("#displayedImg").is(":hidden")) {
+    isValid = false
+    let imgReq = $("<p>").html("Insert an image!")
+    imgReq.css ({
+      "box-shadow" : "0 0 2px 2px #FF6969",
+      "border-radius" : "10px",
+      "width" : "6em",
+      "text-align" : "center"
+    })
+    $("#if-no-img").show()
+    $("#if-no-img").html(imgReq)
+
+    $("#file").bind("change keyup", function(){
+      $("#if-no-img").hide()
+    })
+  } else {
+    $("#if-no-img").hide()
+    $("#displayedImg").show()
+  }
+
+  // Checking if at least one form of communication is valiid
+  if((!email.checkValidity() || $.trim($(email).val()) == "") && (!phone.checkValidity() || $.trim($(phone).val()) == "")) {
+    isValid = false
+    populateContactReq()
+    $("#contactReq").show()
+    $(".phoneInput").css({
+      "box-shadow" : "0 0 2px 2px #FF6969"
+    })
+    $(".emailInput").css({
+      "box-shadow" : "0 0 2px 2px #FF6969"
+    })
+
+  } else {
+    $("#contactReq").hide()
+    $(".phoneInput").css({
+      "box-shadow" : ""
+    })
+    $(".emailInput").css({
+      "box-shadow" : ""
+    })
+  }
+
+if(isValid === true) {
+populatePreview()
+$("#previewPost").show()
+} else {
+$("#previewPost").hide()
+}
+
+})
+
+//---------------------------------------------------------------------------------
+let filname;
+function populatePreview() {
+  let imagePrev = `
+  <div class="display">
+    <h3 class="prevTitle">${$("#title").val()}</h3>
+    <img class="prevImage"/>
+    <h3 class="prevName">${$("#name").val()}</h3>
+    <div class="contextHolder">
+      <p class="info">${$("#breed").val()}</p><br>
+      <p class="info">${$("#description").val()}</p><br>
+      <p class="info">${$("#price").val()}</p><br>
+      <p class="info">Phone number: ${$("#phoneNumber").val()}</p><br>
+      <p class="info">Email address: ${$("#emailAddress").val()}</p><br>
+    </div>
+  </div>`
+  let previewDiv = document.getElementById("previewDiv")
+  previewDiv.innerHTML = imagePrev
+}
+
+//---------------------------------------------------------------------------------
+
+function populateContactReq() {
+  let contactReq = document.getElementById("contactReq")
+  let reqContact= `<p class="required">Please provide either a phone number or email address as a form of communication</p>`
+  $(".required").css({
+    "color" : "red"
+  })
+  contactReq.innerHTML = reqContact
+}
+
+//---------------------------------------------------------------------------------
+
+let thisImgPrev = `<img class="displayImg"/>`
+
+//---------------------------------------------------------------------------------
+
+$("#deletePost").click(function() {
+  console.log("delete button has been clicked")
+  $("#postForm input[type='text']").val("")
+  $("#postForm textarea[type='text']").val("")
+  $("#postForm select[name='favorite']").val("Choose a breed")
+  $("previewDiv").html("")
+  $("#displayedImg").hide()
+})
+
+//---------------------------------------------------------------------------------
+
+$(post).click(function() {
+  uploadFile()
+  refresh()
+})
+
+//---------------------------------------------------------------------------------
+
+function refresh() {
+  window.location.reload()
 }

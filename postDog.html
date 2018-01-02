@@ -30,14 +30,14 @@
     </div>
   </nav>
 
-  <div class="grandparentContainer">
-
     <div id="postForm" class="postings">
+      Title
+      <input type="text" id="title" class="postInput"/>
       Name
-      <input id="name" class="postInput"></input>
-      <br>
+      <input type="text" id="name" class="postInput"/>
       Breed
       <select name="favorite" id="breed" class="postinput">
+        <option>Choose a breed</option>
         <option>Husky</option>
         <option>Shihtzu</option>
         <option>Bulldog</option>
@@ -47,42 +47,45 @@
       </select>
       <br>
 
-      <label class="upload-group">
-        Upload
-      <input type="file" class="upload-group" id="file">
-      </label>
-      <button class="submitImg" id="uploadButton">SUBMIT</button>
+      Upload Doggy Image
+      <div id="thisHolder">
+        <label class="upload-file">
+          Upload
+        <input type="file" class="upload-file" id="file">
+        </label>
 
+        <div id="if-no-img"></div>
+        <div id="displayedImg">
+          <img class="displayImg"/>
+          <button id="trashbin"><img class="trashcan" src="images/trash.png"/></button>
+       </div>
+     </div>
 
       <br>
       Description
-      <textarea id="description" class="descriptionInput"></textarea>
+      <textarea type="text" id="description" class="descriptionInput"></textarea>
+
       <br>
       Rehoming Fee
-      <input id="price" class="priceInput" size="5"></input>
-      <br>
+      <input type="text" id="price" class="postInput" size="5"></input>
+
       Phone Number
-      <input type="text" id="phoneNumber" class="postInput" pattern="^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$"/>
-      <div id="phoneReq"></div>
-      <br>
+      <input type="text" id="phoneNumber" class="phoneInput" pattern="^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$"/>
+
       Email Address
-      <input id="emailAddress" class="postInput" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"></input>
-      <div id="emailReq"></div>
+      <input type="text" id="emailAddress" class="emailInput" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"></input>
+      <div id="contactReq"></div>
       <br>
       <input type="button" value="Preview" id="previewButton" class="postButton"/>
 
     </div>
 
     <div id="previewPost" class="preview">
-      <h4>The preview will be seen here</h4>
-
       <div id="previewDiv"></div>
-
-      <button id="postIt" class="postButton">Post</button>
       <button id="deletePost" class="postButton">Delete</button>
+      <button id="postIt" class="postButton">Post</button>
     </div>
 
-  </div>
 
 <!-- <br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br> -->

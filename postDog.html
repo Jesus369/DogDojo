@@ -30,6 +30,9 @@
     </div>
   </nav>
 
+     <div class="grandparent">
+    <img class="bonedog" src="images/bonedog.png"/>
+    <img class="husky" src="images/husky.png"/>
     <div id="postForm" class="postings">
       Title
       <input type="text" id="title" class="postInput"/>
@@ -76,19 +79,34 @@
       <input type="text" id="emailAddress" class="emailInput" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"></input>
       <div id="contactReq"></div>
       <br>
-      <input type="button" value="Preview" id="previewButton" class="postButton"/>
+      <table>
+        <tr>
+          <td><input type="button" value="Clear Post" id="clearButton" class="postButton"/></td>
+          <td><input type="button" value="Preview" id="previewButton" class="postButton"/></td>
+       </tr>
+     </table>
 
     </div>
 
     <div id="previewPost" class="preview">
-      <div id="previewDiv"></div>
+
+      <div class="display">
+        <h3 id="viewTitle" class="prevTitle"></h3>
+       <img id="viewImg" class="prevImage"/>
+       <h3 id="viewName" class="prevName"></h3>
+       <div class="contextHolder">
+         <p id="viewBreed" class="info"></p><br>
+         <p id="viewDescript" class="info"></p><br>
+         <p id="viewFee" class="info"></p><br>
+         <p id="viewNumb" class="info"></p><br>
+         <p id="viewEmail" class="info"></p><br>
+       </div>
+     </div>
+
       <button id="deletePost" class="postButton">Delete</button>
       <button id="postIt" class="postButton">Post</button>
     </div>
-
-
-<!-- <br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br> -->
+  </div>
 
 <footer>
 <div class="footer-links">

@@ -20,23 +20,12 @@ img {
   height: 400px;
 }
 
-.grandparentDiv {
-  display: flex;
-  flex-direction: row;
-}
-
-.postings {
-  background-color: #F0F0F0;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  margin-top: 5em;
-  padding: 1em;
-  position: relative;
-  left: 5em;
-  width: 30em;
-  overflow: scroll;
+.grandparent {
+    position: relative;
+    width: 100%;
+    color: black;
+    background-color: #A1D88E;
+    min-height: 500px;
 }
 
 /*=====INPUT FIELDS=====*/
@@ -60,6 +49,7 @@ img {
   border-radius: 5px;
   height: 20em;
   outline: none;
+  width:100%;
 }
 
 .descriptionInput:focus {
@@ -99,6 +89,22 @@ img {
   box-shadow: 0px 0px 2px 1px #5FAAFF;
 }
 
+.postings {
+  background-color: #F0F0F0;
+  border: 1px solid #989898;
+  box-shadow: 0 0 2px 2px #989898;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 5em;
+  padding: 1em;
+  left: 10em;
+  width: 50em;
+  overflow: scroll;
+  position: absolute;
+}
+
 .preview {
   background-color: #F0F0F0;
   box-shadow: 0 0 0 1px;
@@ -108,20 +114,20 @@ img {
   flex-wrap: wrap;
   margin: 5em 0 0 4em;
   padding: 1em;
-  left: 5em;
+  left: 650px;
+  bottom: -500px;
   width: 25%;
   overflow-wrap: break-word;
-  position: relative;
-}
-
-.previewDiv {
+  position: absolute;
+  float:right;
 }
 
 .postButton {
   border-radius: 10px;
   border-color: #646161;
   margin: 1em 0 0 0;
-  width: 5em;
+  outline: none;
+  margin-left: 1em;
 }
 
 .imgBtn {
@@ -171,6 +177,11 @@ input#file {
   flex-direction: column;
 }
 
+.displayImg {
+  width: 300px;
+  height: 250px;
+}
+
 /* for preview list items */
 
 .display {
@@ -180,12 +191,13 @@ input#file {
   flex-direction: column;
   border: 1px solid #989898;
   box-shadow: 0 0 3px 2px #989898;
+  overflow: scroll;
   overflow-wrap: break-word;
 }
 
 .prevImage {
-  width: 200px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   margin: 0 auto 0 auto;
 }
 
@@ -213,6 +225,22 @@ input#file {
   border-bottom: 1px solid #C6C6C6;
   padding: 5px;
   margin-bottom: 0;
+}
+
+.bonedog {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  left: 10em;
+  top: -20px;
+}
+
+.husky {
+  width: 30em;
+  height: 40em;
+  position: absolute;
+  left: 70em;
+  top: 20em;
 }
 
 footer ul {

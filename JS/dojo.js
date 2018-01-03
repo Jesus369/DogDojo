@@ -44,7 +44,8 @@ function uploadFile() {
       description : $("#description").val(),
       price : $("#price").val(),
       phone : $("#phoneNumber").val(),
-      email : $("#emailAddress").val()
+      email : $("#emailAddress").val(),
+      title: $("#title").val()
     }
     updates["/Posts/" + postKey] = postData
     firebase.database().ref().update(updates)
@@ -61,7 +62,7 @@ function readImage(input) {
 
     reader.onload = function (data) {
       $(".displayImg").attr("src", data.target.result)
-      $(".previewImg").attr("src", data.target.result)
+      $(".prevImage").attr("src", data.target.result)
 
     }
     reader.readAsDataURL(input.files[0])
@@ -86,12 +87,11 @@ $("#trashbin").click(function() {
 $("#previewButton").click(function() {
   let email = document.getElementById("emailAddress")
   let phone = document.getElementById("phoneNumber")
-
   let isValid = true
 
   // is input type text empty?
   $(".postInput").each(function() {
-    if($.trim($(".postInput").val()) == "") {
+    if($.trim($(this).val()) == "") {
       isValid = false
       $(this).css({
         "box-shadow" : "0 0 2px 2px #FF6969"
@@ -189,33 +189,41 @@ $("#previewButton").click(function() {
     })
   }
 
-if(isValid === true) {
-populatePreview()
-$("#previewPost").show()
-} else {
-$("#previewPost").hide()
-}
-
+   if(isValid === true) {
+    populatePreview()
+    $("#previewPost").fadeIn(2300)
+    $("#postForm").css({
+      "width" : "30em",
+      "transition" : "all 1.2s"
+    })
+  } else {
+    $("#previewPost").fadeOut(500)
+    $("#postForm").css({
+      "width" : "50em",
+      "transition" : "all 1.5s"
+    })
+  }
 })
 
 //---------------------------------------------------------------------------------
 let filname;
 function populatePreview() {
-  let imagePrev = `
-  <div class="display">
-    <h3 class="prevTitle">${$("#title").val()}</h3>
-    <img class="prevImage"/>
-    <h3 class="prevName">${$("#name").val()}</h3>
-    <div class="contextHolder">
-      <p class="info">${$("#breed").val()}</p><br>
-      <p class="info">${$("#description").val()}</p><br>
-      <p class="info">${$("#price").val()}</p><br>
-      <p class="info">Phone number: ${$("#phoneNumber").val()}</p><br>
-      <p class="info">Email address: ${$("#emailAddress").val()}</p><br>
-    </div>
-  </div>`
-  let previewDiv = document.getElementById("previewDiv")
-  previewDiv.innerHTML = imagePrev
+
+    let viewTitle = document.getElementById("viewTitle")
+    let viewName = document.getElementById("viewName")
+    let viewBreed = document.getElementById("viewBreed")
+    let viewFee = document.getElementById("viewFee")
+    let viewNumb = document.getElementById("viewNumb")
+    let viewEmail = document.getElementById("viewEmail")
+    let viewDescript = document.getElementById("viewDescript")
+
+    viewTitle.innerHTML = $("#title").val()
+    viewName.innerHTML = $("#name").val()
+    viewBreed.innerHTML = $("#breed").val()
+    viewFee.innerHTML = $("#price").val()
+    viewNumb.innerHTML = "Phone number: " + $("#phoneNumber").val()
+    viewEmail.innerHTML = "Email " + $("#emailAddress").val()
+    viewDescript.innerHTML = $("#description").val()
 }
 
 //---------------------------------------------------------------------------------
@@ -235,24 +243,36 @@ let thisImgPrev = `<img class="displayImg"/>`
 
 //---------------------------------------------------------------------------------
 
+$("#clearButton").click(function() {
+  clearValues()
+  $("#previewPost").fadeOut(500)
+  $("#postForm").css({
+    "width" : "50em"
+  },20000)
+})
+
 $("#deletePost").click(function() {
-  console.log("delete button has been clicked")
-  $("#postForm input[type='text']").val("")
-  $("#postForm textarea[type='text']").val("")
-  $("#postForm select[name='favorite']").val("Choose a breed")
-  $("previewDiv").html("")
-  $("#displayedImg").hide()
+  $("#previewPost").fadeOut(500)
+  $("#postForm").css({
+    "width" : "50em"
+  },20000)
 })
 
 //---------------------------------------------------------------------------------
 
 $(post).click(function() {
   uploadFile()
-  refresh()
+  $("#previewPost").fadeOut(300)
+  $("#postForm").css({
+    "width" : "50em"
+  },1500)
 })
 
 //---------------------------------------------------------------------------------
 
-function refresh() {
-  window.location.reload()
+function clearValues() {
+  $("#postForm input[type='text']").val("")
+  $("#postForm textarea[type='text']").val("")
+  $("#postForm select[name='favorite']").val("Choose a breed")
+  $("#displayedImg").hide()
 }
